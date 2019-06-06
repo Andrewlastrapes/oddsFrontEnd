@@ -83,7 +83,7 @@ export function IndividualGameModal({selectedGame}){
                             Cancel
                             </Button>
                         <Button color="primary" onClick={() => submitBet()} >
-                            Bet
+                            Bet test
                         </Button>
                     </DialogActions>
         </div>
