@@ -1,0 +1,22 @@
+
+
+.container1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.cardStyleRegister {
+  text-align: center;
+  padding-top: 8%;
+  width: 75vh;
+  height: 60vh;
+}
+
+.cardStyleLogin {
+  text-align: center;
+  padding-top: 3%;
+  width: 75vh;
+  height: 60vh;
+}
