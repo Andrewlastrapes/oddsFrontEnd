@@ -8,7 +8,7 @@ import Dialog from '@material-ui/core/Dialog';
 import { getGames } from "./Api";
 import { setGames } from "./actions/dashboard";
 import { connect } from "react-redux";
-import { IndividualGameModal } from "./layouts/modal";
+import IndividualGameModal from "./layouts/modal";
 
 
 

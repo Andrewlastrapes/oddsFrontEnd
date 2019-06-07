@@ -7,40 +7,49 @@ import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import { connect } from "react-redux";
 
 
 
-export function IndividualGameModal({selectedGame}){
+ function IndividualGameModal({ selectedGame, user}){
 
     console.log(selectedGame)
 
     const [modalState, setModalState] = useState({
         bet: 0,
-        team: '',
+        team: ''
 
     });
 
     const {bet, team} = modalState
 
   const submitBet = () => {
-        // Send bet and team to POST in api.js
+        let data = {
+            user: user,
+            bet: bet,
+            team: team
+        }
+        // Hit post route
+        console.log(data)
     }
 
-    const handleCheck = (e) => {
-       setModalState({
-            team: e.target.value
-       })
-       console.log(modalState)
+    const handleCheck = (e, team) => {
+        
+        if(e.target.checked){
+           setModalState({...modalState, team: team})
+        } else {
+            setModalState({...modalState, team: ''})
+        }
     }
 
     const handleBet = e => {
-       
-        setModalState({bet: e.target.value})
-
+       setModalState({...modalState, bet: e.target.value})
+       console.log("handleBet: " + bet)
     }
+
     return (
         <div>
-              
+              {console.log(bet)}
                <DialogContent>
                         <DialogContentText>
                             <Grid container>
@@ -51,7 +60,7 @@ export function IndividualGameModal({selectedGame}){
                                     {selectedGame["teams"] ? selectedGame['sites'][0]['odds']['h2h'][0] : ''}
                                 </Grid>
                                 <Grid item xs={2}>
-                                    <Checkbox value={selectedGame["teams"][0]} onChange={handleCheck} />
+                                    <Checkbox name="team" onChange={(e) => handleCheck(e, selectedGame["teams"][0])} />
                                 </Grid>
                             </Grid>
                         </DialogContentText>
@@ -64,7 +73,7 @@ export function IndividualGameModal({selectedGame}){
                                     {selectedGame["teams"] ? selectedGame['sites'][0]['odds']['h2h'][1] : ''}
                                 </Grid>
                                 <Grid item xs={2}>
-                                    <Checkbox value={selectedGame["teams"][1]} onChange={handleCheck} />
+                                    <Checkbox name="team" onChange={(e) => handleCheck(e, selectedGame["teams"][1])} />
                                 </Grid>
                             </Grid>
                         </DialogContentText>
@@ -74,7 +83,6 @@ export function IndividualGameModal({selectedGame}){
                             autoFocus
                             margin="dense"
                             type='number'
-                            label="Amount"
                             fullWidth
                         />
                     </DialogContent> 
@@ -83,10 +91,18 @@ export function IndividualGameModal({selectedGame}){
                             Cancel
                             </Button>
                         <Button color="primary" onClick={() => submitBet()} >
-                            Bet test
+                            Bet
                         </Button>
                     </DialogActions>
         </div>
     )
 
 }
+
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(IndividualGameModal)
