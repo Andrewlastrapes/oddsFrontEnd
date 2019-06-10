@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import { connect } from "react-redux";
+import { postUserRoute } from "../Api";
 
 
 
@@ -29,8 +30,11 @@ import { connect } from "react-redux";
             bet: bet,
             team: team
         }
-        // Hit post route
-        console.log(data)
+        postUserRoute(data,"postBet")
+        .then(data => {
+            console.log(data)
+        })
+        
     }
 
     const handleCheck = (e, team) => {

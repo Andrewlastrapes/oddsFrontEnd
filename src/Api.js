@@ -1,7 +1,4 @@
-import { setAlert } from "./actions/alert";
 
-const postRoute = "http://localhost:3001/user/register";
-const loginRoute = "http://localhost:3001/user/login";
 
 export const getGames = (sport) => new Promise((resolve, reject) => {
     console.log(sport)
@@ -13,19 +10,17 @@ export const getGames = (sport) => new Promise((resolve, reject) => {
         });
 });
 
-export const postRegister = (username, password) => new Promise((resolve, reject) => {
-
-    let data = {
-        username: username,
-        password: password
-    }
-    fetch(postRoute, {
+export const postUserRoute = (data, type) => new Promise((resolve, reject) => {
+    console.log(data)
+    let url = `http://localhost:3001/user/${type}`
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
     }).then(res => {
+        console.log(res)
         if (!res.ok) {
             throw Error(res.statusText);
         }
@@ -37,26 +32,9 @@ export const postRegister = (username, password) => new Promise((resolve, reject
 });
 
 
-export const postLogin = (username, password) => new Promise((resolve, reject) => {
-    let data = {
-        username: username,
-        password: password
-    }
-    fetch(loginRoute, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-        .then(res =>
-            res.json())
 
-        .then(data => {
-            resolve(data)
-           
-        });
-})
+
+
 
 
 

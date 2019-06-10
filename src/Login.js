@@ -10,7 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
-import { postLogin } from "./Api";
+import { postUserRoute } from "./Api";
 import { setAlert } from "./actions/alert";
 import { connect } from "react-redux";
 import { SET_ALERT } from "./actions/types";
@@ -40,7 +40,11 @@ const Login = ({history, alert, setAlert, setUser}) =>  {
             setAlert(alertMessage, SET_ALERT);
             return;
         }
-        postLogin(username, password)
+        let data = {
+            username: username,
+            password: password
+        }
+        postUserRoute(data, "login")
         .then(data => {
             console.log(data)
             if(data['token']){

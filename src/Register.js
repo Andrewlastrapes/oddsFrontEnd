@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import "./Register-Login.css"
 import PropTypes from "prop-types";
 import Alert from "./layouts/Alert";
-import { postRegister } from "./Api";
+import { postUserRoute } from "./Api";
 import { SET_ALERT } from './actions/types';
 
 
@@ -40,7 +40,11 @@ const Register = ({ setAlert, history, alert }) => {
             setAlert(alertMessage, SET_ALERT);
             return;
         }
-        postRegister(username, password, password2)
+        let data = {
+            username: username,
+            password: password
+        }
+        postUserRoute(data, "register")
             .then(data => {
                 console.log(data)
                 history.push("/login")
