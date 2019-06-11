@@ -55,7 +55,7 @@ const Dashboard = ({ user, games, setGames }) => {
         setDashState({selectedGame: g, open: true});
     }
 
-    const handleClose = (e) => {
+    const handleClose = () => {
         setDashState({open: false});
         setGamesDashboard(0, "baseball_mlb")
     }
@@ -96,7 +96,7 @@ const Dashboard = ({ user, games, setGames }) => {
                     open={open}
                     onClose={handleClose}
                     aria-labelledby="form-dialog-title">
-                    {selectedGame ? <IndividualGameModal selectedGame={selectedGame}/> : ""}
+                    {selectedGame ? <IndividualGameModal selectedGame={selectedGame} handleClose={handleClose}/> : ""}
                 </Dialog>
             </div>
         )

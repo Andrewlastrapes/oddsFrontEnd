@@ -12,7 +12,7 @@ import { postUserRoute } from "../Api";
 
 
 
- function IndividualGameModal({ selectedGame, user}){
+ function IndividualGameModal({ selectedGame, user, handleClose}){
 
     const [modalState, setModalState] = useState({
         bet: 0,
@@ -34,6 +34,7 @@ import { postUserRoute } from "../Api";
         postUserRoute(data,"postBet")
         .then(data => {
             console.log(data)
+            handleClose()
         })
         
     }
@@ -90,10 +91,10 @@ import { postUserRoute } from "../Api";
                         />
                     </DialogContent> 
                      <DialogActions>
-                        <Button color="primary" onClick={() => console.log("hey")}>
+                        <Button color="primary" onClick={handleClose}>
                             Cancel
                             </Button>
-                        <Button color="primary" onClick={() => submitBet()} >
+                        <Button color="primary" onClick={submitBet} >
                             Bet
                         </Button>
                     </DialogActions>
