@@ -8,10 +8,3 @@ export const setGames = games => dispatch => {
         payload: games
     })
 }
-
-export const setSelectedGame = game => dispatch => {
-    // dispatch({
-    //     type: SELECTED_GAME,
-    //     payload: game
-    // })
-}

@@ -14,8 +14,6 @@ import { postUserRoute } from "../Api";
 
  function IndividualGameModal({ selectedGame, user}){
 
-    console.log(selectedGame)
-
     const [modalState, setModalState] = useState({
         bet: 0,
         team: ''
@@ -27,8 +25,11 @@ import { postUserRoute } from "../Api";
   const submitBet = () => {
         let data = {
             user: user,
-            bet: bet,
-            team: team
+            bet: {
+                money: bet,
+                team: team
+            }
+            
         }
         postUserRoute(data,"postBet")
         .then(data => {
@@ -48,7 +49,6 @@ import { postUserRoute } from "../Api";
 
     const handleBet = e => {
        setModalState({...modalState, bet: e.target.value})
-       console.log("handleBet: " + bet)
     }
 
     return (

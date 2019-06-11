@@ -34,10 +34,9 @@ const Register = ({ setAlert, history, alert }) => {
     }
 
     const register = () => {
-        let alertMessage = "Passwords do no match"
 
         if ((!username || !password || !password2) || (password !== password2)) {
-            setAlert(alertMessage, SET_ALERT);
+            setAlert("Passwords do no match", SET_ALERT);
             return;
         }
         let data = {
@@ -46,6 +45,10 @@ const Register = ({ setAlert, history, alert }) => {
         }
         postUserRoute(data, "register")
             .then(data => {
+                if(data["err"]){
+                    setAlert("User already exists", SET_ALERT);
+                    return;
+                }
                 console.log(data)
                 history.push("/login")
             })
