@@ -53,7 +53,6 @@ import { postUserRoute } from "../Api";
 
     return (
         <div>
-              {console.log(bet)}
                <DialogContent>
                         <DialogContentText>
                             <Grid container>

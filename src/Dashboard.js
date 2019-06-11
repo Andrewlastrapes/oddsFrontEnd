@@ -23,9 +23,7 @@ const Dashboard = ({ user, games, setGames }) => {
     const { value, open, selectedGame } = dashState;
 
     useEffect(() => {
-        getGames('baseball_mlb')
-        .then(data => setGames(data['data'])
-        );
+       setGamesDashboard(0, "baseball_mlb")
     }, [])
 
 
@@ -41,12 +39,16 @@ const Dashboard = ({ user, games, setGames }) => {
             case 3:
                 sport = "icehockey_nhl"
         }
+        setGamesDashboard(value, sport)
 
+    };
+
+    const setGamesDashboard = (value, sport) => {
         getGames(sport)
         .then(data => setGames(data['data'])
         );
         setDashState({value});
-    };
+    }
 
 
     const openModal = (g) => {
@@ -54,8 +56,8 @@ const Dashboard = ({ user, games, setGames }) => {
     }
 
     const handleClose = (e) => {
-        setDashState({open: false})
-        e.preventDefault()
+        setDashState({open: false});
+        setGamesDashboard(0, "baseball_mlb")
     }
 
         let gamesArray = games[games.length - 1];
@@ -93,9 +95,8 @@ const Dashboard = ({ user, games, setGames }) => {
                 <Dialog
                     open={open}
                     onClose={handleClose}
-                    aria-labelledby="form-dialog-title"
-                    >
-                    <IndividualGameModal selectedGame={selectedGame}/>
+                    aria-labelledby="form-dialog-title">
+                    {selectedGame ? <IndividualGameModal selectedGame={selectedGame}/> : ""}
                 </Dialog>
             </div>
         )
