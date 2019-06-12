@@ -2,10 +2,11 @@
 
 export const getGames = (sport) => new Promise((resolve, reject) => {
     console.log(sport)
-    let url = `https://api.the-odds-api.com/v3/odds/?apiKey=846e858aee45850a1bb5916b880d5852&sport=${sport}&region=uk&mkt=h2h`
+    let url = `https://api.the-odds-api.com/v3/odds/?apiKey=8844d0bd760ef626eb43fba7dcf9a839&sport=${sport}&region=uk&mkt=h2h`
     fetch(url)
         .then(res => res.json())
         .then(data => {
+            console.log(data)
             resolve(data)
         });
 });

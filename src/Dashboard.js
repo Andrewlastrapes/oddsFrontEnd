@@ -3,13 +3,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import IndividualGame from "./individualGame";
-import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
 import { getGames } from "./Api";
 import { setGames } from "./actions/dashboard";
 import { connect } from "react-redux";
 import IndividualGameModal from "./layouts/modal";
-
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
 
 
 const Dashboard = ({ user, games, setGames }) => {
@@ -60,15 +60,16 @@ const Dashboard = ({ user, games, setGames }) => {
         setGamesDashboard(0, "baseball_mlb")
     }
 
-        let gamesArray = games[games.length - 1];
+     let gamesArray = games[games.length - 1];
+     
 
-        let grid =
-            <Grid container spacing={16}>
-                {games && games.length > 0 ? gamesArray.map((g, i) =>
-                    <Grid item xs={4} key={i} onClick={() => openModal(g)}>
-                        <IndividualGame game={g} />
-                    </Grid>) : ""}
-            </Grid>
+        let grid = 
+        <List>
+        {games && games.length > 0 ? gamesArray.map((g, i) =>
+          <div onClick={() => openModal(g)}><IndividualGame game={g} index={i} /><Divider /></div> 
+        ) : ""}
+          </List>
+
 
         let display = <div>
             {value === 0 && grid}
