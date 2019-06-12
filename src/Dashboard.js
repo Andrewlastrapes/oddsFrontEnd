@@ -87,7 +87,7 @@ const Dashboard = ({ user, games, setGames }) => {
                         <Tab label="NHL" />
                     </Tabs>
                 </AppBar>
-                <div className="containerCus">
+                <div >
                     <h6>Click on game to make wager.</h6>
                     {user.length > 0 ? <div>Welcome, {user[0]["username"]}</div> : ""}
                     {grid["props"]["children"].length ? display : noGames}

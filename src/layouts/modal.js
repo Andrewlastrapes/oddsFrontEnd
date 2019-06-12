@@ -1,8 +1,11 @@
-import React, {useState} from "react"
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Grid from '@material-ui/core/Grid';
+import React, { useState } from "react"
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -12,92 +15,98 @@ import { postUserRoute } from "../Api";
 
 
 
- function IndividualGameModal({ selectedGame, user, handleClose}){
+
+
+function IndividualGameModal({ selectedGame, user, handleClose }) {
 
     const [modalState, setModalState] = useState({
         bet: 0,
         team: ''
-
     });
 
-    const {bet, team} = modalState
+    const { bet, team } = modalState
 
-  const submitBet = () => {
+    const handleToggle = value => () => {
+        setModalState({ ...modalState, team: value });
+    };
+
+    const submitBet = () => {
         let data = {
             user: user,
             bet: {
                 money: bet,
                 team: team
             }
-            
-        }
-        postUserRoute(data,"postBet")
-        .then(data => {
-            console.log(data)
-            handleClose()
-        })
-        
-    }
 
-    const handleCheck = (e, team) => {
-        
-        if(e.target.checked){
-           setModalState({...modalState, team: team})
-        } else {
-            setModalState({...modalState, team: ''})
         }
+        postUserRoute(data, "postBet")
+            .then(data => {
+                console.log(data)
+                handleClose()
+            });
     }
 
     const handleBet = e => {
-       setModalState({...modalState, bet: e.target.value})
+        setModalState({ ...modalState, bet: e.target.value })
+    }
+
+    const textField = {
+        paddingLeft: "30px",
+        width: "171px"
+    }
+
+    const buttons = {
+        display: "flex",
+        justifyContent: "center"
     }
 
     return (
         <div>
-               <DialogContent>
-                        <DialogContentText>
-                            <Grid container>
-                                <Grid item xs={8}>
-                                    {selectedGame["teams"] ? selectedGame["teams"][0] : ''}
-                                </Grid>
-                                <Grid item xs={2}>
-                                    {selectedGame["teams"] ? selectedGame['sites'][0]['odds']['h2h'][0] : ''}
-                                </Grid>
-                                <Grid item xs={2}>
-                                    <Checkbox name="team" onChange={(e) => handleCheck(e, selectedGame["teams"][0])} />
-                                </Grid>
-                            </Grid>
-                        </DialogContentText>
-                        <DialogContentText>
-                            <Grid container>
-                                <Grid item xs={8}>
-                                    {selectedGame["teams"] ? selectedGame["teams"][1] : ''}
-                                </Grid>
-                                <Grid item xs={2}>
-                                    {selectedGame["teams"] ? selectedGame['sites'][0]['odds']['h2h'][1] : ''}
-                                </Grid>
-                                <Grid item xs={2}>
-                                    <Checkbox name="team" onChange={(e) => handleCheck(e, selectedGame["teams"][1])} />
-                                </Grid>
-                            </Grid>
-                        </DialogContentText>
-                        <TextField
-                            value = {bet}
-                            onChange={handleBet}
-                            autoFocus
-                            margin="dense"
-                            type='number'
-                            fullWidth
-                        />
-                    </DialogContent> 
-                     <DialogActions>
-                        <Button color="primary" onClick={handleClose}>
-                            Cancel
+            <DialogContent>
+                <List>
+                    {selectedGame["teams"].map(t => {
+                        const labelId = `checkbox-list-label-${t}`;
+                        return (
+                            <ListItem key={t} role={undefined} dense button onClick={handleToggle(t)}>
+                                <ListItemIcon>
+                                    <Checkbox
+                                        edge="start"
+                                        checked={t === team}
+                                        tabIndex={-1}
+                                        disableRipple
+                                        inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText id={labelId} primary={t} />
+                                <ListItemSecondaryAction>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        )
+                    })}
+
+                </List>
+                <TextField
+                    style={textField}
+                    value={bet}
+                    onChange={handleBet}
+                    autoFocus
+                    margin="normal"
+                    type='number'
+                    variant="filled"
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    }}
+
+                />
+            </DialogContent>
+            <DialogActions style={buttons}>
+                    <Button color="primary" onClick={handleClose}>
+                        Cancel
                             </Button>
-                        <Button color="primary" onClick={submitBet} >
-                            Bet
+                    <Button color="primary" onClick={submitBet} >
+                        Bet
                         </Button>
-                    </DialogActions>
+            </DialogActions>
         </div>
     )
 
