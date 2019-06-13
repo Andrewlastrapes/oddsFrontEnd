@@ -10,6 +10,11 @@ import { connect } from "react-redux";
 import IndividualGameModal from "./layouts/modal";
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import "./dashboard.css";
+import Moment  from "../node_modules/moment/moment";
+
+
 
 
 const Dashboard = ({ user, games, setGames }) => {
@@ -18,14 +23,20 @@ const Dashboard = ({ user, games, setGames }) => {
         value: 0,
         open: false,
         selectedGame: {},
+        date: ''
     });
 
-    const { value, open, selectedGame } = dashState;
+    const { value, open, selectedGame, date } = dashState;
 
     useEffect(() => {
+        console.log(user)
        setGamesDashboard(0, "baseball_mlb")
+       formatDate()
+       setDashState({
+           ...dashState,
+           date: formatDate()
+       });
     }, [])
-
 
     const handleChange = (event, value) => {
         let sport;
@@ -60,17 +71,27 @@ const Dashboard = ({ user, games, setGames }) => {
         setGamesDashboard(0, "baseball_mlb")
     }
 
-     let gamesArray = games[games.length - 1];
-     
+    const formatDate = () => {
+        let moment = Moment
+        return moment().format('MMMM Do YYYY');
+    }
 
-        let grid = 
-        <List>
+    const listStyle = {
+        boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)',
+        padding: "0"
+    }
+
+     let gamesArray = games[games.length - 1];
+
+        
+     let grid = 
+         <List style={listStyle}>
         {games && games.length > 0 ? gamesArray.map((g, i) =>
-          <div onClick={() => openModal(g)}><IndividualGame game={g} index={i} /><Divider /></div> 
+          <div className="listItem" onClick={() => openModal(g)}><IndividualGame game={g} index={i} /><Divider /></div> 
         ) : ""}
           </List>
-
-
+     
+        
         let display = <div>
             {value === 0 && grid}
             {value === 1 && grid}
@@ -91,7 +112,22 @@ const Dashboard = ({ user, games, setGames }) => {
                 <div >
                     <h6>Click on game to make wager.</h6>
                     {user.length > 0 ? <div>Welcome, {user[0]["username"]}</div> : ""}
-                    {grid["props"]["children"].length ? display : noGames}
+                    {grid["props"]["children"].length ? 
+                        <Grid container>
+                            <Grid item xs={3}>
+                              
+                            </Grid>
+                            <Grid item xs={6}>
+                              <div className="date">{date}</div>
+                              {display} 
+                            </Grid>
+                            <Grid item xs={3}>
+                             
+                            </Grid>
+                        </Grid>
+                        
+                        : 
+                        noGames}
                 </div>
                 <Dialog
                     open={open}

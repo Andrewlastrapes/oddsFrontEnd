@@ -1,0 +1,14 @@
+
+.listItem {
+    transition: transform .2s; 
+}
+
+.listItem:hover {
+    transform: scale(1.1);
+    border: solid powderblue 1px;
+}
+
+.date {
+    font-size: 20px;
+    padding-bottom: 20px;
+}

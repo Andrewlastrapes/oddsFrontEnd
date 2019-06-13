@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
 
 class IndividualGame extends Component {
     render() {
@@ -15,17 +13,18 @@ class IndividualGame extends Component {
             backgroundColor: '#F5F5F5'
         }
 
-        const background = () => {
-            if(index % 2 === 0){
-                return outer
-            }
-        }
+        // const background = () => {
+        //     if(index % 2 === 0){
+        //         return outer
+        //     }
+        // }
 
         return (
-            <Grid container style={background()}>
+            <Grid container style={outer}>
                  <Grid item xs={6}>
                 <ListItem>
                     <ListItemText
+                        inset
                         primary={game["teams"][0]}
                         secondary={
                             <React.Fragment>
@@ -46,6 +45,7 @@ class IndividualGame extends Component {
             <Grid item xs={6}>
                 <ListItem>
                     <ListItemText
+                        inset
                         primary={game["teams"][1]}
                         secondary={
                             <React.Fragment>
