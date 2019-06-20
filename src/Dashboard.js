@@ -29,7 +29,6 @@ const Dashboard = ({ user, games, setGames }) => {
     const { value, open, selectedGame, date } = dashState;
 
     useEffect(() => {
-        console.log(user)
        setGamesDashboard(0, "baseball_mlb")
        formatDate()
        setDashState({

@@ -12,38 +12,35 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import { connect } from "react-redux";
 import { postUserRoute } from "../Api";
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
 
 
-
-
+const buttons = {
+    display: "flex",
+    justifyContent: "center"
+}
 
 function IndividualGameModal({ selectedGame, user, handleClose }) {
 
     const [modalState, setModalState] = useState({
         bet: 0,
-        team: ''
+        team: '',
+        openConfirmationModal: false
     });
 
-    const { bet, team } = modalState
+    const { bet, team, openConfirmationModal } = modalState
 
     const handleToggle = value => () => {
         setModalState({ ...modalState, team: value });
     };
 
     const submitBet = () => {
-        let data = {
-            user: user,
-            bet: {
-                money: bet,
-                team: team
-            }
 
-        }
-        postUserRoute(data, "postBet")
-            .then(data => {
-                console.log(data)
-                handleClose()
-            });
+        setModalState({
+            ...modalState,
+            openConfirmationModal: true
+        })
     }
 
     const handleBet = e => {
@@ -53,11 +50,6 @@ function IndividualGameModal({ selectedGame, user, handleClose }) {
     const textField = {
         paddingLeft: "30px",
         width: "171px"
-    }
-
-    const buttons = {
-        display: "flex",
-        justifyContent: "center"
     }
 
     return (
@@ -100,13 +92,17 @@ function IndividualGameModal({ selectedGame, user, handleClose }) {
                 />
             </DialogContent>
             <DialogActions style={buttons}>
-                    <Button color="primary" onClick={handleClose}>
-                        Cancel
+                <Button color="primary" onClick={handleClose}>
+                    Cancel
                             </Button>
-                    <Button color="primary" onClick={submitBet} >
-                        Bet
+                <Button color="primary" onClick={submitBet} >
+                    Bet
                         </Button>
             </DialogActions>
+            <Dialog open={openConfirmationModal}>
+                <ConfirmationModal user={user} team={team} bet={bet} handleClose={handleClose}/>
+            </Dialog>
+
         </div>
     )
 
@@ -119,3 +115,38 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(IndividualGameModal)
+
+function ConfirmationModal({ user, team, bet, handleClose }) {
+    
+     let data = {
+            user: user,
+            bet: {
+                money: bet,
+                team: team
+            }
+        }
+
+    const submitBet = () => {
+        postUserRoute(data, "postBet")
+        .then(data => {
+            handleClose()
+        });
+     }  
+
+    return (
+        <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              {user[0]['username']}, are you sure you want to bet ${bet} on {team}?
+          </DialogContentText>
+            <DialogActions style={buttons}>
+                <Button color="primary" onClick={handleClose}>
+                    Cancel
+                            </Button>
+                <Button color="primary" onClick={submitBet}>
+                    Confirm
+                        </Button>
+            </DialogActions>
+        </DialogContent>
+    )
+}
+
