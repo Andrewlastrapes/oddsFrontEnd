@@ -3,3 +3,4 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 export const SET_USER = "SET_USER";
 export const SET_GAMES = "GET_GAMES";
 export const SELECTED_GAME = 'SELECTED_GAME';
+export const SUBMITTED_BET = "SUBMITTED_BET";

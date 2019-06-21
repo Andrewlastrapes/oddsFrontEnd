@@ -7,17 +7,21 @@ import Dialog from '@material-ui/core/Dialog';
 import { getGames } from "./Api";
 import { setGames } from "./actions/dashboard";
 import { connect } from "react-redux";
+import { setAlert } from "./actions/alert"
 import IndividualGameModal from "./layouts/modal";
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import "./dashboard.css";
 import Moment  from "../node_modules/moment/moment";
+import { SET_ALERT } from './actions/types';
+import Alert from "./layouts/Alert";
+import { SUBMITTED_BET } from "./actions/types"
 
 
 
 
-const Dashboard = ({ user, games, setGames }) => {
+const Dashboard = ({ user, games, setGames, setAlert }) => {
 
     const [dashState, setDashState] = useState({
         value: 0,
@@ -65,7 +69,11 @@ const Dashboard = ({ user, games, setGames }) => {
         setDashState({selectedGame: g, open: true});
     }
 
-    const handleClose = () => {
+    const handleClose = (submitted, data) => {
+        let totalMoney = data["user"]["money"]
+        if(submitted === SUBMITTED_BET){
+            setAlert(`Bet submitted. You have $${totalMoney} left in your account`, SET_ALERT)
+        }
         setDashState({open: false});
         setGamesDashboard(0, "baseball_mlb")
     }
@@ -108,6 +116,7 @@ const Dashboard = ({ user, games, setGames }) => {
                         <Tab label="NHL" />
                     </Tabs>
                 </AppBar>
+                {alert ? <Alert /> : ""}
                 <div >
                     <h6>Click on game to make wager.</h6>
                     {user.length > 0 ? <div>Welcome, {user[0]["username"]}</div> : ""}
@@ -142,8 +151,9 @@ const mapStateToProps = state => {
     const {user, dashboard} = state
     return {
         user: user,
-        games: dashboard
+        games: dashboard,
+        alert: state.alert 
     }
 }
 
-export default connect(mapStateToProps, { setGames })(Dashboard);
+export default connect(mapStateToProps, { setGames, setAlert })(Dashboard);

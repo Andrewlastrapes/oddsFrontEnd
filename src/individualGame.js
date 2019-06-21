@@ -13,12 +13,6 @@ class IndividualGame extends Component {
             backgroundColor: '#F5F5F5'
         }
 
-        // const background = () => {
-        //     if(index % 2 === 0){
-        //         return outer
-        //     }
-        // }
-
         return (
             <Grid container style={outer}>
                  <Grid item xs={6}>

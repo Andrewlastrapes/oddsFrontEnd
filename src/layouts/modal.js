@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import { postUserRoute } from "../Api";
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Dialog from '@material-ui/core/Dialog';
+import { SUBMITTED_BET } from "../actions/types";
 
 
 const buttons = {
@@ -116,6 +117,8 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(IndividualGameModal)
 
+
+
 function ConfirmationModal({ user, team, bet, handleClose }) {
     
      let data = {
@@ -129,7 +132,8 @@ function ConfirmationModal({ user, team, bet, handleClose }) {
     const submitBet = () => {
         postUserRoute(data, "postBet")
         .then(data => {
-            handleClose()
+            console.log(data)
+            handleClose(SUBMITTED_BET, data)
         });
      }  
 

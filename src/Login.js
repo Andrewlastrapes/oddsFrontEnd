@@ -104,10 +104,6 @@ const Login = ({history, alert, setAlert, setUser}) =>  {
                 </Paper>
             </div>
         )
-
-        Login.propTypes = {
-            setAlert: PropTypes.func.isRequired
-        }
     }
 
     const mapStateToProps = state => {
